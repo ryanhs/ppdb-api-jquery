@@ -1,0 +1,20 @@
+<html>
+	
+	<script type="text/javascript" src="/jquery/node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/jquery/api-jquery.js"></script>
+<body>
+	
+	
+	<script type="text/javascript">
+		
+		API.get({
+			method: "category.select"
+		}, function(d){
+			console.log('suc: ' + JSON.stringify(d));
+		}, function(d){
+			console.log('err: ' + JSON.stringify(d));
+		});
+		
+	</script>
+</body>
+</html>
