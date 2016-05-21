@@ -1,20 +1,33 @@
 <html>
 	
-	<script type="text/javascript" src="/jquery/node_modules/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="/jquery/api-jquery.js"></script>
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="bower_components/lz-string/libs/lz-string.min.js"></script>
+	<script type="text/javascript" src="bower_components/lscache/lscache.min.js"></script>
+	<script type="text/javascript" src="api-jquery.js"></script>
 <body>
-	
+	<pre id="log"></pre>
 	
 	<script type="text/javascript">
 		
-		API.get({
-			method: "category.select"
-		}, function(d){
-			console.log('suc: ' + JSON.stringify(d));
-		}, function(d){
-			console.log('err: ' + JSON.stringify(d));
-		});
+		var api_url = 'http://ppdb2016.dev:13000/json';
+		//~ var api_url = 'http://ppdb.bandung.go.vps:13000/json';
+		API.setUrl(api_url);
+		API.debug(false);
 		
+		function test() {
+			API.get({
+				method: "school.select",
+				params: {
+					level: 'junior'
+				}
+			}, function(d){
+				$('#log').html(JSON.stringify(d, null, '\t'));
+			}, function(d){
+				$('#log').html(JSON.stringify(d, null, '\t'));
+			});
+		}
+		
+		test();
 	</script>
 </body>
 </html>

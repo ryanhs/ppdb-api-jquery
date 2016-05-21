@@ -56,7 +56,9 @@
 	// local scope variable definition
 	var url = 'http://api.dev.ppdbkotabandung.web.dev/json',
         n = 'undefined',
-		qs = {};
+		qs = {},
+		enableCache = true,
+		enableDebug = true;
 	
 	// parse query string
 	(function () {
@@ -74,11 +76,21 @@
 	var API = {
 		
 		name: "api-accessor",
-		version: "1.0.0-Beta1",		
+		version: "1.2.0",		
 		
 		_GET: function (w) {
             return(w in qs) ? qs[w] : n
         },
+		
+		cache: function (enable) {
+			if (typeof enable !== 'undefined') enableCache = enable;
+			return enableCache;
+		},
+		
+		debug: function (enable) {
+			if (typeof enable !== 'undefined') enableDebug = enable;
+			return enableDebug;
+		},
 		
 		setUrl: function(newUrl){
 			url = newUrl;
@@ -95,13 +107,24 @@
 				params	: {}
 			};
 			
+			if (enableCache) {
+				var cacheKey = JSON.stringify(data);
+				var cacheValue = lscache.get(cacheKey);
+				if (cacheValue !== null) {
+					if (enableDebug) console.log('API: load from cache: ' + cacheKey);
+					onSuccess(JSON.parse(LZString.decompress(cacheValue)));
+					return;
+				}
+			}
+			
 			if(typeof method_params.params != 'undefined')
 				data.params = method_params.params;
 			
 			var req = JSON.stringify(data);
-			//console.log(req);
-			//return;
+			console.log(req);
+			//~ return;
 			
+			if (enableDebug) console.log('API: request: ' + req);
 			$.ajax({
 				async: false,
 				url: url,
@@ -115,6 +138,13 @@
 				}
 					
 				if(typeof res.result != 'undefined' && typeof onSuccess == 'function'){
+					if (enableCache) {
+						cacheValue = LZString.compress(JSON.stringify(res.result));
+						lscache.set(cacheKey, cacheValue, 1); // 1 minutes
+						if (enableDebug) console.log('API: save to cache: ' + req);
+					}
+					
+					if (enableDebug) console.log('API: received: ' + req);
 					onSuccess(res.result)
 					return;
 				}

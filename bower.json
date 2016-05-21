@@ -1,0 +1,23 @@
+{
+  "name": "ppdb-api-jquery",
+  "description": "-",
+  "main": "api-jquery.js",
+  "authors": [
+    "ryan hs <mr.ryansilalahi@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ryanhs/ppdb-api-jquery",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lz-string": "^1.4.4",
+    "lscache": "^1.0.5",
+    "jquery": "^2.2.4"
+  }
+}
