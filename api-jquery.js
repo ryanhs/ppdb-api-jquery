@@ -107,6 +107,9 @@
 				params	: {}
 			};
 			
+			if(typeof method_params.params != 'undefined')
+				data.params = method_params.params;
+			
 			if (enableCache) {
 				var cacheKey = JSON.stringify(data);
 				var cacheValue = lscache.get(cacheKey);
@@ -116,9 +119,6 @@
 					return;
 				}
 			}
-			
-			if(typeof method_params.params != 'undefined')
-				data.params = method_params.params;
 			
 			var req = JSON.stringify(data);
 			console.log(req);
