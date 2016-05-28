@@ -9,16 +9,20 @@
 	
 	<script type="text/javascript">
 		
-		var api_url = 'http://ppdb2016.dev:13000/json';
-		//~ var api_url = 'http://ppdb.bandung.go.vps:13000/json';
+		//~ var api_url = 'http://ppdb2016.dev/json';
+		var api_url = 'http://ppdb.bandung.go.vps/json';
 		API.setUrl(api_url);
-		API.debug(false);
+		//~ API.debug(false);
+		
+		API.cache(true, 2);
+		API.async(true);
+		console.log(API.async())
 		
 		function test() {
 			API.get({
-				method: "school.select",
+				method: "school.get",
 				params: {
-					level: 'junior'
+					id: 325
 				}
 			}, function(d){
 				$('#log').html(JSON.stringify(d, null, '\t'));

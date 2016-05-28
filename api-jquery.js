@@ -57,8 +57,10 @@
 	var url = 'http://api.dev.ppdbkotabandung.web.dev/json',
         n = 'undefined',
 		qs = {},
+		expireCache = 1, // 1 minutes
 		enableCache = true,
-		enableDebug = true;
+		enableDebug = true,
+		enableAsync = false;
 	
 	// parse query string
 	(function () {
@@ -82,14 +84,21 @@
             return(w in qs) ? qs[w] : n
         },
 		
-		cache: function (enable) {
+		cache: function (enable, expire) {
 			if (typeof enable !== 'undefined') enableCache = enable;
+			if (typeof expire !== 'undefined') expireCache = expire;
+			
 			return enableCache;
 		},
 		
 		debug: function (enable) {
 			if (typeof enable !== 'undefined') enableDebug = enable;
 			return enableDebug;
+		},
+		
+		async: function (enable) {
+			if (typeof enable !== 'undefined') enableAsync = enable;
+			return enableAsync;
 		},
 		
 		setUrl: function(newUrl){
@@ -126,7 +135,7 @@
 			
 			if (enableDebug) console.log('API: request: ' + req);
 			$.ajax({
-				async: false,
+				async: enableAsync,
 				url: url,
 				method: "POST",
 				data: req
@@ -140,8 +149,8 @@
 				if(typeof res.result != 'undefined' && typeof onSuccess == 'function'){
 					if (enableCache) {
 						cacheValue = LZString.compress(JSON.stringify(res.result));
-						lscache.set(cacheKey, cacheValue, 1); // 1 minutes
-						if (enableDebug) console.log('API: save to cache: ' + req);
+						lscache.set(cacheKey, cacheValue, expireCache); 
+						if (enableDebug) console.log('API: save to cache ('+expireCache+' m): ' + req);
 					}
 					
 					if (enableDebug) console.log('API: received: ' + req);
