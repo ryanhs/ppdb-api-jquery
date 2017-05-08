@@ -78,7 +78,7 @@
 	var API = {
 
 		name: "api-accessor",
-		version: "1.2.0",
+		version: "1.2.4",
 
 		_GET: function (w) {
             return(w in qs) ? qs[w] : n
@@ -142,7 +142,10 @@
 			}).done(function(res){
 
 				if(typeof res.error != 'undefined' && typeof onError == 'function'){
-					if (enableDebug) console.log('API: error: ' + req);
+					if (enableDebug) {
+						console.log('API: error: ' + req);
+						console.log(res);
+					}
 					onError(res.error);
 					return;
 				}
@@ -151,7 +154,9 @@
 					if (enableCache) {
 						cacheValue = LZString.compress(JSON.stringify(res.result));
 						lscache.set(cacheKey, cacheValue, expireCache);
-						if (enableDebug) console.log('API: save to cache ('+expireCache+' m): ' + req);
+						if (enableDebug) {
+							console.log('API: save to cache ('+expireCache+' m): ' + req);
+						}
 					}
 
 					if (enableDebug) console.log('API: received: ' + req);
