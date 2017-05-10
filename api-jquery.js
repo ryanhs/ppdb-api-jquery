@@ -61,6 +61,7 @@
 		enableCache = true,
 		enableDebug = true,
 		enableAsync = false;
+		enableOnionRPC = false;
 
 	// parse query string
 	(function () {
@@ -78,7 +79,7 @@
 	var API = {
 
 		name: "api-accessor",
-		version: "1.2.4",
+		version: "1.2.5",
 
 		_GET: function (w) {
             return(w in qs) ? qs[w] : n
@@ -99,6 +100,11 @@
 		async: function (enable) {
 			if (typeof enable !== 'undefined') enableAsync = enable;
 			return enableAsync;
+		},
+
+		onionrpc: function (enable) {
+			if (typeof enable !== 'undefined') enableOnionRPC = enable;
+			return enableOnionRPC;
 		},
 
 		setUrl: function(newUrl){
@@ -134,6 +140,9 @@
 			//~ return;
 
 			if (enableDebug) console.log('API: request: ' + req);
+
+			if (enableOnionRPC) req = { onionrpc: req };
+
 			$.ajax({
 				async: enableAsync,
 				url: url,
