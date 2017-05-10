@@ -146,7 +146,7 @@
 			$.ajax({
 				async: enableAsync,
 				url: url,
-				contentType: "application/json",
+				// contentType: "application/json",
 				method: "POST",
 				data: req
 			}).done(function(res){
