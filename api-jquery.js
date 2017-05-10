@@ -79,7 +79,7 @@
 	var API = {
 
 		name: "api-accessor",
-		version: "1.2.5",
+		version: "1.2.6",
 
 		_GET: function (w) {
             return(w in qs) ? qs[w] : n
@@ -146,6 +146,7 @@
 			$.ajax({
 				async: enableAsync,
 				url: url,
+				contentType: "application/json",
 				method: "POST",
 				data: req
 			}).done(function(res){
