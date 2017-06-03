@@ -115,6 +115,18 @@
 			return url;
 		},
 
+		testRaw: function(req) {
+			$.ajax({
+				async: enableAsync,
+				url: url,
+				// contentType: "application/json",
+				method: "POST",
+				data: req
+			}).done(function(res){
+				console.log(res);
+			});
+		},
+
 		get: function(method_params, onSuccess, onError){
 			data = {
 				jsonrpc	: "2.0",
