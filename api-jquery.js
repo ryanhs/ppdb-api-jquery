@@ -79,7 +79,7 @@
 	var API = {
 
 		name: "api-accessor",
-		version: "1.2.6",
+		version: "1.2.8",
 
 		_GET: function (w) {
             return(w in qs) ? qs[w] : n
